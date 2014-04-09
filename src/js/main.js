@@ -62,16 +62,37 @@ function draw(){
   var canvas = document.getElementById('id_canvas');
   if (canvas.getContext) {
     var ctx=canvas.getContext('2d');
-    ctx.fillStyle = "rgb(100,200,0)";//choix de couleur
-    //taille du carreau : 3+3 + 80*8 + 2*7 = 660px
-    // bordure externe = 3px
-    // bordure inter-cellules = 2 px
-    // taille cellule = 80 px
-    ctx.fillRect(5,5,660,660);//remplissage
-    
+    ctx.fillStyle = "rgb(100,200,0)"; // choix de couleur
+
+    /******* 
+    * taille du carreau : 3+3 + 80*8 + 2*7 = 660px
+    * bordure externe = 3px
+    * bordure inter-cellules = 2 px
+    * taille cellule = 80 px 
+    ********/
+
+    ctx.fillRect(5,5,660,660); // remplissage
+    var i =0;
+    var j =0;
     for (var y=8; y<=660; y+=82){
       for (var x=8; x<=660; x+=82){
-        ctx.clearRect(x,y,80,80);
+        if (i%2 == 0){
+          if (j%2 == 0)
+            ctx.clearRect(x,y,80,80);
+          else{
+            ctx.fillStyle = "rgb(100,0,200)";
+            ctx.fillRect(x,y,80,80)
+          }
+        }
+        else{
+          if (j%2 == 0){
+            ctx.fillStyle = "rgb(100,0,200)";
+            ctx.fillRect(x,y,80,80);
+          }
+          else
+            ctx.clearRect(x,y,80,80)
+        }
+        j+=1;
         //var centreX = x1+(80/2)-15;
         //var centreY = y1+(80/2)+19;
         //ctx.font = 'normal 50px Metal';
@@ -79,6 +100,7 @@ function draw(){
         //valeur = getRandom();
         //ctx.fillText(tab[i][j],centreX,centreY);
       }
+    i+=1;
     }
     
   }
