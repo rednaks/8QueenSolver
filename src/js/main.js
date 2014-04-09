@@ -92,15 +92,18 @@ function draw(){
           else
             ctx.clearRect(x,y,80,80)
         }
+        
+        var centreX = x+(80/2)-15;
+        var centreY = y+(80/2)+19;
+        ctx.font = 'normal 50px Metal';
+        ctx.fillStyle = "rgb(1000,0,0)";
+        console.log('i=' +i+ ' j='+j+' '+matrix[i][j]);
+        ctx.fillText(matrix[i][j],centreX,centreY);
+
         j+=1;
-        //var centreX = x1+(80/2)-15;
-        //var centreY = y1+(80/2)+19;
-        //ctx.font = 'normal 50px Metal';
-        // console.log('i=' +i+ ' j='+j+' '+tab[i][j]);
-        //valeur = getRandom();
-        //ctx.fillText(tab[i][j],centreX,centreY);
       }
     i+=1;
+    j=0;
     }
     
   }
