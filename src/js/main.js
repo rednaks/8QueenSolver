@@ -7,9 +7,25 @@ var matrix = [[0,0,0,0,0,0,0,0],
              [0,0,0,0,0,0,0,0],
              [0,0,0,0,0,0,0,0],
              [0,0,0,0,0,0,0,0]];
+  var canvas = document.getElementById("id_canvas");
+  var ctx = canvas.getContext("2d");
+  var img = document.createElement('img');
+  // definit le fichier
+  img.src = 'img/queen.png';
 
 
-function initGame(){
+
+//window.onload = function(){init();};
+
+function init(){
+/*
+  var canvas = document.getElementById("id_canvas");
+  var ctx = canvas.getContext("2d");
+  var img = document.createElement('img');
+  // definit le fichier
+  img.src = 'img/queen.png';
+*/
+
 }
 
 
@@ -58,10 +74,9 @@ function afficher(){
   }
 }
 
-function draw(){
-  var canvas = document.getElementById('id_canvas');
+window.onload = function draw(){
   if (canvas.getContext) {
-    var ctx=canvas.getContext('2d');
+   // var ctx=canvas.getContext('2d');
     ctx.fillStyle = "rgb(100,200,0)"; // choix de couleur
 
     /******* 
@@ -70,12 +85,12 @@ function draw(){
     * bordure inter-cellules = 2 px
     * taille cellule = 80 px 
     ********/
-
-    ctx.fillRect(5,5,660,660); // remplissage
+    var size = 6 + 80*N + 2*(N-1);
+    ctx.fillRect(5,5,size,size); // remplissage
     var i =0;
     var j =0;
-    for (var y=8; y<=660; y+=82){
-      for (var x=8; x<=660; x+=82){
+    for (var y=8; y<=size; y+=82){
+      for (var x=8; x<=size; x+=82){
         if (i%2 == 0){
           if (j%2 == 0)
             ctx.clearRect(x,y,80,80);
@@ -95,11 +110,12 @@ function draw(){
         
         var centreX = x+(80/2)-15;
         var centreY = y+(80/2)+19;
+        /*
         ctx.font = 'normal 50px Metal';
         ctx.fillStyle = "rgb(1000,0,0)";
         console.log('i=' +i+ ' j='+j+' '+matrix[i][j]);
         ctx.fillText(matrix[i][j],centreX,centreY);
-
+        */
         j+=1;
       }
     i+=1;
@@ -109,5 +125,29 @@ function draw(){
   }
 }
 
+canvas.onclick = function(e){
+//  if (e.pageX < 600 && e.pageY < 600){
+   
+  
+  var posX = e.pageX;
+  var posY = e.pageY;
+
+  var i = Math.floor(posX / 80);
+  var j = Math.floor(posY / 80);
+//}
+  
+  if ( i >= 660 || i < 8 || j >= 660 || j < 8)
+  {
+    return;
+  }
+
+  if (matrix[i][j] != -1)
+  {
+    return;
+  }
+
+  ctx.dawImage(img,posX,posY,60,60);    
+}
+
 // Exécution de la fonction
-draw()
+//draw()
