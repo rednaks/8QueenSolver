@@ -14,17 +14,7 @@ var matrix = [[0,0,0,0,0,0,0,0],
   img.src = 'img/queen.png';
 
 
-
-//window.onload = function(){init();};
-
 function init(){
-/*
-  var canvas = document.getElementById("id_canvas");
-  var ctx = canvas.getContext("2d");
-  var img = document.createElement('img');
-  // definit le fichier
-  img.src = 'img/queen.png';
-*/
 
 }
 
@@ -76,7 +66,6 @@ function afficher(){
 
 window.onload = function draw(){
   if (canvas.getContext) {
-   // var ctx=canvas.getContext('2d');
     ctx.fillStyle = "rgb(100,200,0)"; // choix de couleur
 
     /******* 
@@ -110,12 +99,6 @@ window.onload = function draw(){
         
         var centreX = x+(80/2)-15;
         var centreY = y+(80/2)+19;
-        /*
-        ctx.font = 'normal 50px Metal';
-        ctx.fillStyle = "rgb(1000,0,0)";
-        console.log('i=' +i+ ' j='+j+' '+matrix[i][j]);
-        ctx.fillText(matrix[i][j],centreX,centreY);
-        */
         j+=1;
       }
     i+=1;
@@ -128,16 +111,17 @@ window.onload = function draw(){
 canvas.onclick = function(e){
 //  if (e.pageX < 600 && e.pageY < 600){
    
-  
+ console.log("blabla");  
   var posX = e.pageX;
   var posY = e.pageY;
 
   var i = Math.floor(posX / 80);
   var j = Math.floor(posY / 80);
 //}
-  
-  if ( i >= 660 || i < 8 || j >= 660 || j < 8)
+ 
+/*  if ( i >= 660 || i < 8 || j >= 660 || j < 8)
   {
+   console.log("endehor");
     return;
   }
 
@@ -145,9 +129,9 @@ canvas.onclick = function(e){
   {
     return;
   }
-
-  ctx.dawImage(img,posX,posY,60,60);    
+*/
+  originX = i*80+22;
+  originY = j*80+18;
+  ctx.drawImage(img,originX,originY,60,60);    
+  console.log("X= "+originX+ "   Y= "+originY);
 }
-
-// Exécution de la fonction
-//draw()
