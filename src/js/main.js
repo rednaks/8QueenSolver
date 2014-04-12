@@ -31,31 +31,55 @@ function placerReine(x,y) {
 function bloquerPlacements(x, y) {
 
   for(var i = 0; i < N;i++) {
-      matrix[x][i] = -1; // Horizontal
-      matrix[i][y] = -1; // Vertical
+      matrix[x][i] += -1; // Horizontal
+      matrix[i][y] += -1; // Vertical
       
       if( y+i < 8 && x+i < 8)
-        matrix[i+x][i+y] = -1; // Diag1 bas
+        matrix[i+x][i+y] += -1; // Diag1 bas
 
       if((x-i) >= 0 && (y-i) >=0)
-        matrix[x-i][y-i] = -1; // Diag1 haut
+        matrix[x-i][y-i] += -1; // Diag1 haut
 
       if((x-i) >= 0 && (y + i) < 8)
-      matrix[x-i][y+i] = -1; // Diag2 Bas
+      matrix[x-i][y+i] += -1; // Diag2 Bas
 
       if( y-i >= 0 && x+i < 8)
-        matrix[x+i][y-i] = -1; // Diang2 haut
+        matrix[x+i][y-i] += -1; // Diang2 haut
   }
 
   matrix[x][y] = 1; // Corriger la matrice
 }
 
+function enleverReine(x, y) {
+console.log("elever");
+  for(var i = 0; i < N;i++) {
+      matrix[x][i] -= -1; // Horizontal
+      matrix[i][y] -= -1; // Vertical
+      
+      if( y+i < 8 && x+i < 8)
+        matrix[i+x][i+y] -= -1; // Diag1 bas
+
+      if((x-i) >= 0 && (y-i) >=0)
+        matrix[x-i][y-i] -= -1; // Diag1 haut
+
+      if((x-i) >= 0 && (y + i) < 8)
+      matrix[x-i][y+i] -= -1; // Diag2 Bas
+
+      if( y-i >= 0 && x+i < 8)
+        matrix[x+i][y-i] -= -1; // Diang2 haut
+  }
+
+  matrix[x][y] = 0; // Corriger la matrice
+}
+
+
+
 
 function afficher(){
   var msg = "";
-  for(var i = 0; i < N;i++)
+  for(var j = 0; j < N;j++)
   {
-    for(var j = 0; j < N;j++){
+    for(var i = 0; i < N;i++){
       msg = msg + '|'+matrix[i][j];
     }
     msg = msg + '\n';
@@ -74,18 +98,19 @@ window.onload = function draw(){
     * bordure inter-cellules = 2 px
     * taille cellule = 80 px 
     ********/
+
     var size = 6 + 80*N + 2*(N-1);
-    ctx.fillRect(5,5,size,size); // remplissage
+    ctx.fillRect(0,0,size,size); // remplissage
     var i =0;
     var j =0;
-    for (var y=8; y<=size; y+=82){
-      for (var x=8; x<=size; x+=82){
+    for (var y=3; y < size-1; y+=82){
+      for (var x=3; x < size-1; x+=82){
         if (i%2 == 0){
           if (j%2 == 0)
             ctx.clearRect(x,y,80,80);
           else{
             ctx.fillStyle = "rgb(100,0,200)";
-            ctx.fillRect(x,y,80,80)
+            ctx.fillRect(x,y,80,80);
           }
         }
         else{
@@ -94,11 +119,8 @@ window.onload = function draw(){
             ctx.fillRect(x,y,80,80);
           }
           else
-            ctx.clearRect(x,y,80,80)
+            ctx.clearRect(x,y,80,80);
         }
-        
-        var centreX = x+(80/2)-15;
-        var centreY = y+(80/2)+19;
         j+=1;
       }
     i+=1;
@@ -109,29 +131,38 @@ window.onload = function draw(){
 }
 
 canvas.onclick = function(e){
-//  if (e.pageX < 600 && e.pageY < 600){
    
- console.log("blabla");  
-  var posX = e.pageX;
-  var posY = e.pageY;
+  var posX = e.clientX;
+  var posY = e.clientY;
 
-  var i = Math.floor(posX / 80);
-  var j = Math.floor(posY / 80);
-//}
+  var i = Math.floor((posX-13) / 82);
+  var j = Math.floor((posY-13) / 82);
+  
+  var originX = i*82+13;
+  var originY = j*82+13;
  
-/*  if ( i >= 660 || i < 8 || j >= 660 || j < 8)
-  {
-   console.log("endehor");
+  if (matrix[i][j] == 1){
+    var imageData = ctx.getImageData(originX, originY, 1, 1);
+    var pixel = imageData.data; 
+   //redraw
+    if (pixel[0] == 0)
+      ctx.clearRect(originX,originY,60,60);
+    else{
+      ctx.fillStyle = "rgb(pixel[0],pixel[1],pixel[2])";
+      ctx.fillRect(originX,originY,60,60);
+    }
+    //enleverReine(i,j);
+  }
+
+  if(matrix[i][j] == -1){
+    console.log("impossible de la placer ici");
     return;
   }
 
-  if (matrix[i][j] != -1)
-  {
-    return;
+  if(matrix[i][j] == 0){ 
+    placerReine(i,j);
+    bloquerPlacements(i,j);
+    ctx.drawImage(img,originX,originY,60,60);    
   }
-*/
-  originX = i*80+22;
-  originY = j*80+18;
-  ctx.drawImage(img,originX,originY,60,60);    
-  console.log("X= "+originX+ "   Y= "+originY);
+
 }
