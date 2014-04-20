@@ -89,3 +89,34 @@ function getEmptyTiles(aMatrix){
   return emptyTiles;
 }
 
+
+function buildTree(){
+
+  var matrix = createSizedMatrix(2);
+  var emptyTiles = getEmptyTiles(matrix);
+  var root = createNode(matrix, emptyTiles);
+  buildTreeRoot(root);
+
+  return root;
+}
+
+
+
+function buildTreeRoot(root){
+
+  for(var i = 0;i < root.emptyTiles.length; i++){
+    var aMatrix = copyMatrixByVal(root.data);
+    var tile = root.emptyTiles[i];
+
+    if(placerReine(aMatrix, tile[0], tile[1])){
+      bloquerPlacements(aMatrix, tile[0], tile[1]);
+    }
+
+    var emptyTiles = getEmptyTiles(aMatrix);
+    var node = createNode(aMatrix, emptyTiles);
+    root.children.push(node);
+    buildTreeRoot(node); // The new node will be considered as root for the next iteration call.
+  }
+
+}
+
