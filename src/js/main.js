@@ -60,3 +60,32 @@ function afficher(aMatrix){
   }
 }
 
+
+
+function copyMatrixByVal(aMatrix){
+  return JSON.parse(JSON.stringify(aMatrix));
+}
+
+function createNode(aMatrix, aEmptyTiles){
+  var node = {
+    data: aMatrix,
+    emptyTiles: aEmptyTiles, // An array of coords that contains the emptyTiles.
+    children: new Array()
+  }
+
+  return node;
+}
+
+function getEmptyTiles(aMatrix){
+  var emptyTiles = new Array();
+  var n = 0;
+  for(var i = 0; i < N; i++){
+    for(var j = 0; j < N; j++){
+      if(aMatrix[i][j] == 0)
+        emptyTiles[n++] = [i, j];
+    }
+  }
+
+  return emptyTiles;
+}
+
