@@ -1,56 +1,58 @@
 var N = 8;
-var matrix = [[0,0,0,0,0,0,0,0],
-             [0,0,0,0,0,0,0,0],
-             [0,0,0,0,0,0,0,0],
-             [0,0,0,0,0,0,0,0],
-             [0,0,0,0,0,0,0,0],
-             [0,0,0,0,0,0,0,0],
-             [0,0,0,0,0,0,0,0],
-             [0,0,0,0,0,0,0,0]];
+var matrix = createSizedMatrix(N);
 
 
-function initGame(){
+function createSizedMatrix(aSize){
+  N = aSize;
+  var row = new Array();
+  for(var i = 0; i < aSize; i++)
+    row[i] = 0;
+
+  var matrix = new Array();
+  for(var i = 0; i < aSize; i++)
+    matrix[i] = row.slice(0); // Copy by value.
+
+  return matrix;
 }
 
 
-
-function placerReine(x,y) {
-  if(matrix[x][y] == 0){
-    matrix[x][y] = 1;
+function placerReine(aMatrix, x,y) {
+  if(aMatrix[x][y] == 0){
+    aMatrix[x][y] = 1;
     return true;
   }
   return false;
 }
 
-function bloquerPlacements(x, y) {
+function bloquerPlacements(aMatrix, x, y) {
 
   for(var i = 0; i < N;i++) {
-      matrix[x][i] = -1; // Horizontal
-      matrix[i][y] = -1; // Vertical
+      aMatrix[x][i] = -1; // Horizontal
+      aMatrix[i][y] = -1; // Vertical
       
-      if( y+i < 8 && x+i < 8)
-        matrix[i+x][i+y] = -1; // Diag1 bas
+      if( y+i < N && x+i < N)
+        aMatrix[i+x][i+y] = -1; // Diag1 bas
 
       if((x-i) >= 0 && (y-i) >=0)
-        matrix[x-i][y-i] = -1; // Diag1 haut
+        aMatrix[x-i][y-i] = -1; // Diag1 haut
 
-      if((x-i) >= 0 && (y + i) < 8)
-      matrix[x-i][y+i] = -1; // Diag2 Bas
+      if((x-i) >= 0 && (y + i) < N)
+      aMatrix[x-i][y+i] = -1; // Diag2 Bas
 
-      if( y-i >= 0 && x+i < 8)
-        matrix[x+i][y-i] = -1; // Diang2 haut
+      if( y-i >= 0 && x+i < N)
+        aMatrix[x+i][y-i] = -1; // Diang2 haut
   }
 
-  matrix[x][y] = 1; // Corriger la matrice
+  aMatrix[x][y] = 1; // Corriger la matrice
 }
 
 
-function afficher(){
+function afficher(aMatrix){
   var msg = "";
   for(var i = 0; i < N;i++)
   {
     for(var j = 0; j < N;j++){
-      msg = msg + '|'+matrix[i][j];
+      msg = msg + '|'+aMatrix[i][j];
     }
     msg = msg + '\n';
     console.log(msg);
