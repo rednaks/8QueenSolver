@@ -90,9 +90,9 @@ function getEmptyTiles(aMatrix){
 }
 
 
-function buildTree(){
+function buildTree(aSize){
 
-  var matrix = createSizedMatrix(2);
+  var matrix = createSizedMatrix(aSize);
   var emptyTiles = getEmptyTiles(matrix);
   var root = createNode(matrix, emptyTiles);
   buildTreeRoot(root);
@@ -110,12 +110,12 @@ function buildTreeRoot(root){
 
     if(placerReine(aMatrix, tile[0], tile[1])){
       bloquerPlacements(aMatrix, tile[0], tile[1]);
-    }
 
-    var emptyTiles = getEmptyTiles(aMatrix);
-    var node = createNode(aMatrix, emptyTiles);
-    root.children.push(node);
-    buildTreeRoot(node); // The new node will be considered as root for the next iteration call.
+      var emptyTiles = getEmptyTiles(aMatrix);
+      var node = createNode(aMatrix, emptyTiles);
+      root.children.push(node);
+      buildTreeRoot(node); // The new node will be considered as root for the next iteration call.
+    }
   }
 
 }
