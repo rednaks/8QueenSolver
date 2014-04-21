@@ -61,6 +61,17 @@ function afficher(aMatrix){
 }
 
 
+function solvedGame(aMatrix) {
+  var nQueens = 0;
+  for(var i = 0; i < N; i++) {
+    for(var j = 0; j< N; j++) {
+      if(aMatrix[i][j] == 1)
+        nQueens++;
+    }
+  }
+
+  return nQueens == N;
+}
 
 function copyMatrixByVal(aMatrix){
   return JSON.parse(JSON.stringify(aMatrix));
@@ -118,5 +129,44 @@ function buildTreeRoot(root){
     }
   }
 
+}
+
+
+function solutionAlreadyFound(aArrayOfSolutions, aSolution) {
+  for(var i = 0; i < aArrayOfSolutions.length;i++) {
+    if(aArrayOfSolutions[i].data.toString() == aSolution.data.toString())
+      return true;
+  }
+
+  return false;
+}
+
+
+function searchForSolutions(root) {
+
+  var solutions = new Array();
+  dfs(root, solutions);
+
+  return solutions;
+}
+
+
+
+
+function dfs(root, aSolutions){
+
+  var nChildren = root.children.length;
+  if(nChildren == 0) {
+    if(solvedGame(root.data))
+      return root;
+    return null;
+  }
+
+  for(var i = 0; i < nChildren; i++){
+    var sol = dfs(root.children[i], aSolutions);
+    if(sol != null)
+      if(!solutionAlreadyFound(aSolutions, sol))
+        aSolutions.push(sol);
+  }
 }
 
