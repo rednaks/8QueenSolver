@@ -170,3 +170,9 @@ function dfs(root, aSolutions){
   }
 }
 
+function printSolutions(aArrayOfSolutions) {
+  for(var i = 0; i < aArrayOfSolutions.length; i++) {
+    console.log('Sol ' + i);
+    afficher(aArrayOfSolutions[i].data);
+  }
+}
