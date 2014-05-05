@@ -243,11 +243,13 @@ function draw(aMatrix,origineX,origineY){
 }
 
 function drawSolution(aArrayOfSolutions) {
-  var sol = Math.floor(Math.random() * aArrayOfSolutions.length);
-  if(sol == 0) {
-    alert("Aucune solution ");
+  var nSol = aArrayOfSolutions.length;
+  if(nSol == 0) {
+    alert("Aucune solution");
     return;
   }
+
+  var sol = Math.floor(Math.random() * nSol);
 
   draw(aArrayOfSolutions[sol].data,0,0);
 }
