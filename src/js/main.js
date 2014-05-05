@@ -1,5 +1,12 @@
 var N = 8;
 var matrix = createSizedMatrix(N);
+var matrixForDraw = matrix;
+var canvas = document.getElementById("id_canvas");
+var ctx = canvas.getContext("2d");
+var img = document.createElement('img');
+// definit le fichier
+img.src = 'img/queen.png';
+
 
 
 function createSizedMatrix(aSize){
@@ -169,10 +176,65 @@ function dfs(root, aSolutions){
         aSolutions.push(sol);
   }
 }
-
+//Console
 function printSolutions(aArrayOfSolutions) {
   for(var i = 0; i < aArrayOfSolutions.length; i++) {
     console.log('Sol ' + i);
     afficher(aArrayOfSolutions[i].data);
   }
 }
+
+//draw
+function draw(aMatrix,origineX,origineY){
+ if (canvas.getContext) {
+    ctx.fillStyle = "rgb(100,200,0)"; // choix de couleur
+
+    /******* 
+    * taille du carreau : 3+3 + 80*8 + 2*7 = 660px
+    * bordure externe = 3px
+    * bordure inter-cellules = 2 px
+    * taille cellule = 80 px 
+    ********/
+
+    var size = 6 + 80*N + 2*(N-1);
+//  origineY = origineY*(size+20);
+    console.log('origineX : ' + origineX + '       origineY : '+origineY);
+    ctx.fillRect(origineX,origineY,size,size); // remplissage
+    var i =0;
+    var j =0;
+    for (var y=origineY+3; y < size-1; y+=82){
+      for (var x=origineX+3; x < size-1; x+=82){
+        if (i%2 == 0){
+          if (j%2 == 0)
+            ctx.clearRect(x,y,80,80);
+          else{
+            ctx.fillStyle = "rgb(100,0,200)";
+            ctx.fillRect(x,y,80,80);
+          }
+        }
+        else{
+          if (j%2 == 0){
+            ctx.fillStyle = "rgb(100,0,200)";
+            ctx.fillRect(x,y,80,80);
+          }
+          else
+            ctx.clearRect(x,y,80,80);
+        } 
+        if(aMatrix[i][j] == 1){
+          ctx.drawImage(img,x+10,y+10,60,60);
+        }
+        j+=1;
+      }
+    i+=1;
+    j=0;
+    }
+
+  }
+}
+
+function drawSolution(aArrayOfSolutions) {
+  var sol = Math.floor(Math.random() * aArrayOfSolutions.length);
+  draw(aArrayOfSolutions[sol].data,0,0);
+}
+
+
