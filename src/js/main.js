@@ -1,11 +1,20 @@
 var N = 8;
+var root = null;
+var solutions = null;
+
 var matrix = createSizedMatrix(N);
 var matrixForDraw = matrix;
-var canvas = document.getElementById("id_canvas");
-var ctx = canvas.getContext("2d");
-var img = document.createElement('img');
+var canvas;
+var ctx;
+var img;
+
+window.addEventListener("load", function () {
+ canvas = document.getElementById("id_canvas");
+ ctx = canvas.getContext("2d");
+ img = document.createElement('img');
 // definit le fichier
 img.src = 'img/queen.png';
+});
 
 
 
@@ -172,6 +181,7 @@ function dfs(root, aSolutions){
   for(var i = 0; i < nChildren; i++){
     var sol = dfs(root.children[i], aSolutions);
     if(sol != null)
+
       if(!solutionAlreadyFound(aSolutions, sol))
         aSolutions.push(sol);
   }
@@ -234,7 +244,45 @@ function draw(aMatrix,origineX,origineY){
 
 function drawSolution(aArrayOfSolutions) {
   var sol = Math.floor(Math.random() * aArrayOfSolutions.length);
+  if(sol == 0) {
+    alert("Aucune solution ");
+    return;
+  }
+
   draw(aArrayOfSolutions[sol].data,0,0);
 }
 
+
+
+// Events 
+
+function buildTreeOnClick() {
+  N = document.getElementById("dim").value;
+  if(N > 7) {
+    alert("Oops, je crains que je n'ai pas assez de RAM pour calculer, sorry :s");
+    return;
+  }
+  root = buildTree(N);
+}
+
+function searchForSolutionsOnClick() {
+
+  if(root == null) {
+    alert("Vous devez générer l'arbre de décision d'abord");
+    return;
+  }
+
+  solutions = searchForSolutions(root);
+
+}
+
+function drawSolutionOnClick() {
+  if(solutions == null) {
+    alert("Vous devez générer les solutions !");
+    return;
+  }
+
+  drawSolution(solutions);
+
+}
 

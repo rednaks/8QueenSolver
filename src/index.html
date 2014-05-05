@@ -9,20 +9,15 @@
 		<div>
 			<label for="dim">Dimension de la matrice</label>
 			<input type="number" name="dim" id="dim" value="5">
-			<button id="" onClick="var root=buildTree(dim))">Generation de l'arbre</button>
+			<button id="" onClick="buildTreeOnClick()">Generation de l'arbre</button>
 		</div>
 		<div>
-			<button id="arbre" onClick="var root = buildTree(5);var solutions = searchForSolutions(root);">Géneration des Solutions</button>
+			<button id="arbre" onClick="searchForSolutionsOnClick();">Géneration des Solutions</button>
 		</div>
 		<div>
-			<button id="solution" onClick="var root = buildTree(5);
-var solutions = searchForSolutions(root);drawSolution(solutions)">Solution</button>
+			<button id="solution" onClick="drawSolutionOnClick()">Solution Aléatoire</button>
 		</div>
                 <canvas id="id_canvas" width="660" height="660"></canvas>
-                <script language="javascript" type="text/javascript" src="js/main.js"></script>
-        	<script>
-			var dim = document.getElementById("dim").value;
-		</script>
 </body>
 </html>
 
