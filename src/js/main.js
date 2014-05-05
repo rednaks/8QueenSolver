@@ -196,6 +196,7 @@ function printSolutions(aArrayOfSolutions) {
 
 //draw
 function draw(aMatrix,origineX,origineY){
+ ctx.clearRect(0, 0, 660, 660);
  if (canvas.getContext) {
     ctx.fillStyle = "rgb(100,200,0)"; // choix de couleur
 
